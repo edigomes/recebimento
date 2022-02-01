@@ -1,4 +1,7 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pedidos/providers/pedido.dart';
 import 'package:pedidos/providers/pedidos.dart';
 import 'package:pedidos/providers/produto.dart';
@@ -87,54 +90,54 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     bottom: 6,
                   ),
                   child: Container(
-                    margin: EdgeInsetsDirectional.all(8),
+                    margin: EdgeInsetsDirectional.all(16),
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Icon(Icons.add_box),
-                                    Container(
-                                        margin: EdgeInsetsDirectional.only(
-                                            end: 12)),
-                                    Text(
-                                      "015",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                Icon(Icons.add_box),
+                                Container(
+                                    margin:
+                                        EdgeInsetsDirectional.only(end: 12)),
+                                Text(
+                                  "015",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                            Expanded(
+                              child: SizedBox(
+                                width: 30,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "CX",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    //
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.add),
-                                    ),
-                                    //
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.remove),
-                                    ),
-                                  ],
+                                Text(
+                                  "CX",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                //
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.add),
+                                ),
+                                //
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.remove),
                                 )
                                 //
                               ],
-                            )
+                            ),
                           ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 6),
                         ),
                         Row(
                           children: [
@@ -145,13 +148,124 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                               "150",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                            Expanded(
+                              child: SizedBox(
+                                width: 30,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "UN",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                //
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.add),
+                                ),
+                                //
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.remove),
+                                )
+                                //
+                              ],
+                            )
                           ],
                         ),
                       ],
                     ),
                   ),
                 ),
-                Card(),
+                Card(
+                  elevation: 4,
+                  margin: EdgeInsets.only(
+                    left: 12,
+                    right: 12,
+                    bottom: 12,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 8,
+                              left: 6,
+                              bottom: 12,
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text("+ PARCIAL"),
+                              //style: ButtonStyle(padding: MaterialStateProperty.),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 16,
+                              bottom: 3,
+                              left: 6,
+                            ),
+                            child: Text("Parciais"),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(6),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.archive),
+                                Text("25"),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(Icons.archive),
+                                Text("50"),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(Icons.archive),
+                                Text("75"),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(8),
+                            child: Icon(MdiIcons.barcode),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 6),
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(8),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "Entre o código de barras"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
