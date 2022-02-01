@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/providers/produto.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/exceptions/http_exception.dart';
-import 'package:pedidos/providers/product.dart';
-import 'package:pedidos/providers/products.dart';
+import 'package:pedidos/providers/pedidos.dart';
 import 'package:pedidos/utils/app_routes.dart';
 
-class ProductItem extends StatelessWidget {
-  final Product product;
+class ProdutoItem extends StatelessWidget {
+  final Produto product;
 
-  const ProductItem(this.product);
+  const ProdutoItem(this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +48,12 @@ class ProductItem extends StatelessWidget {
                   ).then(
                     (value) async {
                       if (value) {
+                        /*
                         try {
                           Provider.of<Products>(
                             context,
                             listen: false,
-                          ).removeProduct(product.id);
+                          ).removeProduct(product.cod.toString());
                         } on HttpException catch (error) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -62,6 +63,7 @@ class ProductItem extends StatelessWidget {
                             ),
                           );
                         }
+                        */
                       }
                     },
                   );

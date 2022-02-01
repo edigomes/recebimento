@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pedidos/providers/product.dart';
+import 'package:pedidos/providers/produto.dart';
 
 // Tela que mostra os detalhes do produto
 class ProductDetailScreen extends StatelessWidget {
@@ -8,8 +8,8 @@ class ProductDetailScreen extends StatelessWidget {
     // final precisa ser inicializada por constr ou diretamente
     // modalRoute passa o ctx e var para o outro widget por argumento
     // Pode ser tanto o cast quanto por referência de instância (Prod prod)
-    final Product product =
-        ModalRoute.of(context).settings.arguments as Product;
+    final Produto product =
+        ModalRoute.of(context).settings.arguments as Produto;
     return Scaffold(
       appBar: AppBar(
         title: Text(product.title),
@@ -29,7 +29,7 @@ class ProductDetailScreen extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'R\$ ${product.price}',
+              'R\$ ${'texto' /*product.price*/}',
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 20,
@@ -39,7 +39,8 @@ class ProductDetailScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               width: double.infinity,
               child: Text(
-                product.description,
+                '',
+                /*product.description,*/
                 textAlign: TextAlign.center,
               ),
             ),

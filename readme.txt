@@ -1,7 +1,12 @@
-class pedido
-nome fornecedor
-nota fiscal
+class fornecedor
+string nome fornecedor
+int nota fiscal
 data do pedido
+
+class produto
+string imagem
+int código
+double quantidade
 -------------------------------------------------------------------------------------------------------------------------------------
 tela recebimentos
 appbar: drawer - titulo "RECEBIMENTOS" - lupa pesquisar - 3 pontinhos
@@ -29,3 +34,10 @@ parciais
 ícone de código de barras - botão que vai abrir o leitor de código de barras ?
 botão elevatedbutton CONCLUIR (azul claro. Apertando, retorna pra pedidos) e ETIQUETAS (roxo)
 -------------------------------------------------------------------------------------------------------------------------------------
+
+https://reqres.in/
+
+https://app.uizard.io/p/8a335400
+
+parei em "id" de produto
+depois preciso fazer a classe de fornecedor e colocar produto dentro

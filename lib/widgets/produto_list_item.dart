@@ -1,27 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/providers/pedido.dart';
+import 'package:pedidos/providers/produto.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/exceptions/http_exception.dart';
 import 'package:pedidos/providers/auth.dart';
 import 'package:pedidos/providers/cart.dart';
-import 'package:pedidos/providers/product.dart';
 import 'package:pedidos/utils/app_routes.dart';
 import '../providers/cart.dart';
 
 // Formato dos produtos do app, com foto e interações em stack,
 //como favorito e add carrinho ao lado.
 
-class ProductGridItem extends StatelessWidget {
-  //const ProductItem(this.product);
+class ProdutoListItem extends StatelessWidget {
+  Produto produto;
+
+  ProdutoListItem(this.produto);
 
   @override
   Widget build(BuildContext context) {
-    final Product product = Provider.of(context, listen: false);
+    return Card(
+      elevation: 3.0,
+      child: ListTile(
+        title: Container(
+          margin: EdgeInsets.only(
+            bottom: 6.0,
+          ),
+          child: Text(
+            produto.title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        subtitle:
+            Text('ID: ${produto.cod}' + ' | ' + 'Qtde: ${produto.quant} KG'),
+        //leading: CircleAvatar(
+        //backgroundImage: NetworkImage(product.imageUrl), //(product.imageUrl),
+        //),
+        trailing: IconButton(
+          icon: Icon(Icons.navigate_next),
+          onPressed: () {
+            Navigator.of(context).pushNamed(
+              AppRoutes.SCREEN_PRODUTO,
+              arguments: produto,
+            );
+          },
+        ),
+      ),
+    );
 
-    final Cart cart = Provider.of(context, listen: false);
-
-    final Auth auth = Provider.of(context, listen: false);
-
-    // itens tela principal dos produtos
+    /*
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -87,6 +113,6 @@ class ProductGridItem extends StatelessWidget {
           ),
         ),
       ),
-    );
+    );*/
   }
 }

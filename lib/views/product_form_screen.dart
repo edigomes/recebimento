@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/providers/produto.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/product.dart';
-import 'package:pedidos/providers/products.dart';
+import 'package:pedidos/providers/pedidos.dart';
 
 // Há 2 formas de passar o Product: null ou por arguments
 
@@ -39,13 +39,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     print('didChange');
     super.didChangeDependencies();
     if (_formData.isEmpty) {
-      final product = ModalRoute.of(context).settings.arguments as Product;
+      final product = ModalRoute.of(context).settings.arguments as Produto;
 
       if (product != null) {
-        _formData['id'] = product.id;
+        _formData['id'] = product.cod;
         _formData['title'] = product.title;
-        _formData['price'] = product.price;
-        _formData['description'] = product.description;
+        //_formData['price'] = product.price;
+        //_formData['description'] = product.description;
         _formData['imageUrl'] = product.imageUrl;
 
         // POR QUE COLOCA AQUI, E NÃO NO INITIAL ?!
@@ -82,11 +82,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
     _formGK.currentState.save();
 
-    final product = Product(
-      id: _formData['id'],
+    final product = Produto(
+      cod: _formData['id'],
       title: _formData['title'],
-      description: _formData['description'],
-      price: _formData['price'],
+      //description: _formData['description'],
+      //price: _formData['price'],
       imageUrl: _formData['imageUrl'],
     );
 
@@ -94,13 +94,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       _isLoading = true;
     });
 
-    final products = Provider.of<Products>(context, listen: false);
+    final products = Provider.of<Pedidos>(context, listen: false);
 
     try {
       if (_formData['id'] == null) {
-        await products.addProduct(product);
+        //await products.addProduct(product);
       } else {
-        await products.updateProduct(product);
+        //await products.updateProduct(product);
       }
       // vai ser null ou não, senão dá catch
       Navigator.of(context).pop();

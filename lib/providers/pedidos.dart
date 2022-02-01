@@ -5,38 +5,43 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedidos/exceptions/http_exception.dart';
-import 'package:pedidos/providers/product.dart';
+import 'package:pedidos/providers/pedido.dart';
+import 'package:pedidos/providers/produto.dart';
 import 'package:pedidos/utils/constants.dart';
 
 // O único lugar que Products é usado como instância é em "main". Provavelmente, pra passar da melhor forma
 //deve ser feito por ProxyProvider
 
-class Products with ChangeNotifier {
+class Pedidos with ChangeNotifier {
 //----------------------------------------------------------------------------//
   // a lista pede pra ser constante
 
-  List<Product> _items = [];
+  List<Pedido> _items = [];
 
   String _token;
   String _userId;
 
   final _baseUrl = '${Constants.BASE_API_URL}/products';
 
-  Products([this._token, this._items = const [], this._userId]);
+  Pedidos([
+    this._token,
+    this._items = const [],
+    this._userId,
+  ]);
 
   //  Abaixo (get), cópia da lista ("...") _items para que só possa ser add por addProduct
   // só sendo possível alterar a cópia (read only). Talvez, possibilite fazer filtros
   // da lista principal. Em definitivo, ... limita.
 
   // O TOKEN é usado para reconhecer o produto do USUÁRIO com seu token person
-  List<Product> get items {
+  List<Pedido> get items {
     return [..._items];
   }
 
-  List<Product> get favoriteItems {
+  /*List<Product> get favoriteItems {
     // Aqui cria uma cópia de _items também, justo pq retorna uma lista
     return _items.where((prod) => prod.isFavorite).toList();
-  }
+  }*/
 
   // Para produtos!
   int get itemsCount {
@@ -50,41 +55,66 @@ class Products with ChangeNotifier {
   Future<void> loadProducts() async {
     if (_items.isNotEmpty) _items.clear();
 
-    final prodResponse =
-        await http.get(Uri.parse('$_baseUrl/$_userId.json?auth=$_token'));
-    final Map<String, dynamic> data = jsonDecode(prodResponse.body);
+    final pedidoResponse = await http.get(Uri.parse(
+        'https://reqres.in/api/users/2' /*'$_baseUrl/$_userId.json?auth=$_token'*/));
+    final Map<String, dynamic> dataPedido = jsonDecode(pedidoResponse.body);
 
-    final favResponse = await http.get(Uri.parse(
-        '${Constants.BASE_API_URL}/userFavorites/$_userId.json?auth=$_token'));
-    final favMap = jsonDecode(favResponse.body);
+    final produtosResponse = await http.get(
+      Uri.parse('https://reqres.in/api/users?page=2'),
+    );
+    final Map<String, dynamic> dataProduto = jsonDecode(produtosResponse.body);
+
+    //final favResponse = await http.get(Uri.parse(
+    //    '${Constants.BASE_API_URL}/userFavorites/$_userId.json?auth=$_token'));
+    //final favMap = jsonDecode(favResponse.body);
 
     // retorna no padrão json Map<String, Map<String, dynamic>>
+    //print(data['']['e']);
+    if (dataPedido != null) {
+      final Map<String, Map<String, dynamic>> teste = {
+        'a': {'b': 'c'},
+        'd': {'e': 'f'},
+      };
 
-    if (data != null) {
-      print('chegou');
       // n pd vir null pq n se faz forEach no nada !
-      data.forEach((productId, productData) {
-        final isFavorite = favMap == null ? false : favMap[productId] ?? false;
-        // Se n for nulo passa direto
-        // Se nulo n marca, do contrário pega de favMap, caso n false tmbm.
-        // anotei sobre nulo
-        _items.add(
-          Product(
-            id: productId,
-            description: productData['description'],
-            title: productData['title'],
-            price: productData['price'],
-            imageUrl: productData['imageUrl'],
-            isFavorite: isFavorite,
-          ),
-        );
-      });
+
+      // chave/valor do map/json
+      //data.forEach((productId, productData) {
+      //final isFavorite = favMap == null ? false : favMap[productId] ?? false;
+      // Se n for nulo passa direto
+      // Se nulo n marca, do contrário pega de favMap, caso n false tmbm.
+      // anotei sobre nulo
+      //final String idJson = ;
+      //print(productData['data']['cod'] + "+++++++++++++askaskaoskaoskasokaso");
+
+      _items.add(
+        Pedido(
+          id: dataPedido['data']["id"],
+          notaFiscal: dataPedido['data']['id'],
+          nomeFornecedor: dataPedido['data']["first_name"], //productId,
+          dataPedido: dataPedido['data']["last_name"],
+          produtos: (dataProduto['data'] as List<dynamic>)
+              .map(
+                (item) => Produto(
+                  cod: item['id'],
+                  title: item['first_name'],
+                  imageUrl: item['avatar'],
+                ),
+              )
+              .toList(),
+          //price: productData['price'],
+          //: data['data']["avatar"],
+          //isFavorite: isFavorite,
+        ),
+      );
+      //});
       notifyListeners();
     }
 
     return Future.value();
   }
 
+/*
 //----------------------------------------------------------------------------//
 
   // ADICIONAR PRODUTO
@@ -105,8 +135,8 @@ class Products with ChangeNotifier {
       body: jsonEncode(
         {
           'title': newProduct.title,
-          'description': newProduct.description,
-          'price': newProduct.price,
+          //'description': newProduct.description,
+          //'price': newProduct.price,
           'imageUrl': newProduct.imageUrl,
           //'isFavorite': newProduct.isFavorite,
         },
@@ -115,11 +145,11 @@ class Products with ChangeNotifier {
 
     _items.add(
       Product(
-        // response.body é o id do obj (retorno) do servidor com 'name'
-        id: jsonDecode(response.body)['name'],
-        description: newProduct.description,
+        // response.body é o cod do obj (retorno) do servidor com 'name'
+        cod: jsonDecode(response.body)['name'],
+        //description: newProduct.description,
         title: newProduct.title,
-        price: newProduct.price,
+        //price: newProduct.price,
         imageUrl: newProduct.imageUrl,
       ),
     );
@@ -134,19 +164,19 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(Product product) async {
     // "product" é o que vou alterar
 
-    if (product == null || product.id == null) return;
+    if (product == null || product.cod == null) return;
 
-    final index = _items.indexWhere((prod) => prod.id == product.id);
+    final index = _items.indexWhere((prod) => prod.cod == product.cod);
 
     // Abaixo faz um ser = ao outro
     if (index >= 0) {
       await http.patch(
-        Uri.parse('$_baseUrl/${product.id}.json?auth=$_token'),
+        Uri.parse('$_baseUrl/${product.cod}.json?auth=$_token'),
         body: jsonEncode(
           {
             'title': product.title,
-            'description': product.description,
-            'price': product.price,
+            //'description': product.description,
+            //'price': product.price,
             'imageUrl': product.imageUrl,
           },
         ),
@@ -160,8 +190,8 @@ class Products with ChangeNotifier {
 
   // REMOVER PRODUTO
 
-  Future<void> removeProduct(String id) async {
-    final index = _items.indexWhere((prod) => prod.id == id);
+  Future<void> removeProduct(String cod) async {
+    final index = _items.indexWhere((prod) => prod.cod == cod);
 
     if (index >= 0) {
       // A ideia aqui é add primeiro, remover dps e add caso problema
@@ -171,7 +201,7 @@ class Products with ChangeNotifier {
       _items.remove(product);
 
       final response = await http
-          .delete(Uri.parse('$_baseUrl/${product.id}.json?auth=$_token'));
+          .delete(Uri.parse('$_baseUrl/${product.cod}.json?auth=$_token'));
 
       // Pra aparecer "statusCode", "response" deve ser "await"
       // 200: retorno da familía de conclusão
@@ -187,9 +217,10 @@ class Products with ChangeNotifier {
         throw HttpException('Ocorreu um erro ao tentar remover o produto.');
       }
 
-      // _items.removeWhere((prod) => prod.id == id);       <<
+      // _items.removeWhere((prod) => prod.cod == cod);       <<
     }
     notifyListeners();
   }
 //----------------//----------------//----------------//----------------//------
+*/
 }

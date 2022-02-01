@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/views/pedido_screen.dart';
+import 'package:pedidos/views/produto_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/providers/cart.dart';
 import 'package:pedidos/providers/orders.dart';
-import 'package:pedidos/providers/products.dart';
+import 'package:pedidos/providers/pedidos.dart';
 import 'package:pedidos/utils/app_routes.dart';
 import 'package:pedidos/providers/auth.dart';
 import 'package:pedidos/views/cart_screen.dart';
@@ -36,14 +38,14 @@ class MyApp extends StatelessWidget {
         //ProxyProvider precisar usar qm ta acima dele
         //Único método de fazer Providers conversarem entre si.
         //Precisa ter o "< >" pra "auth" fazer sentido com "Auth"
-        ChangeNotifierProxyProvider<Auth, Products>(
+        ChangeNotifierProxyProvider<Auth, Pedidos>(
           create: (ctx) {
             print('create');
-            return Products();
+            return Pedidos();
           },
           // Só preciso saber qual o momento q o token vai mudar
           update: (ctx, auth, previousProducts) {
-            return Products(
+            return Pedidos(
               // "previous" deve ser obrigatório msm
               // No momento de colocar o "token", Products é reconstruído com "create" dnv, por isso precisa de "previous"
               auth.token,
@@ -90,6 +92,8 @@ class MyApp extends StatelessWidget {
           AppRoutes.ORDERS: (ctx) => OrdersScreen(),
           AppRoutes.PRODUCTS: (ctx) => ProductsScreen(),
           AppRoutes.PRODUCT_FORM: (ctx) => ProductFormScreen(),
+          AppRoutes.SCREEN_PEDIDO: (ctx) => PedidoScreen(),
+          AppRoutes.SCREEN_PRODUTO: (ctx) => ProdutoScreen(),
         },
       ),
     );

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:pedidos/providers/product.dart';
+import 'package:pedidos/providers/produto.dart';
 
 class CartItem {
   final String id;
@@ -10,7 +10,7 @@ class CartItem {
   final double price;
 
   CartItem({
-    @required this.id,
+    this.id, // era required, mas dava erro
     @required this.title,
     @required this.quantity,
     @required this.productId,
@@ -47,27 +47,28 @@ class Cart with ChangeNotifier {
 
 //------------------------------------------------------------------------------
 
-  void addItem(Product product) {
-    if (items.containsKey(product.id)) {
+  void addItem(Produto product) {
+    double price = 10;
+    if (items.containsKey(product.cod)) {
       _items.update(
-        product.id,
+        product.cod.toString(),
         (previousItem) => CartItem(
           id: previousItem.id,
           title: previousItem.title,
           quantity: previousItem.quantity + 1,
-          productId: product.id,
+          productId: product.cod.toString(),
           price: previousItem.price,
         ),
       );
     } else {
       _items.putIfAbsent(
-        product.id,
+        product.cod.toString(),
         () => CartItem(
           id: Random().nextDouble().toString(),
           title: product.title,
           quantity: 1,
-          productId: product.id,
-          price: product.price,
+          productId: product.cod.toString(),
+          price: price, //product.price,
         ),
       );
     }

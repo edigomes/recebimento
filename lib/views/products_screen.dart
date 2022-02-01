@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/products.dart';
+import 'package:pedidos/providers/pedidos.dart';
 import 'package:pedidos/utils/app_routes.dart';
 import 'package:pedidos/widgets/app_drawer.dart';
 import 'package:pedidos/widgets/product_item.dart';
 
 class ProductsScreen extends StatelessWidget {
   Future<void> _refreshProducts(BuildContext context) {
-    return Provider.of<Products>(context, listen: false).loadProducts();
+    return Provider.of<Pedidos>(context, listen: false).loadProducts();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Products productsData = Provider.of(context);
+    final Pedidos productsData = Provider.of(context);
     final products = productsData.items;
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +40,7 @@ class ProductsScreen extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                ProductItem(products[i]),
+                //ProductItem(products[i]),
                 SizedBox(
                   height: 10,
                 ),

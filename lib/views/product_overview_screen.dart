@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/providers/cart.dart';
-import 'package:pedidos/providers/products.dart';
+import 'package:pedidos/providers/pedidos.dart';
 import 'package:pedidos/widgets/app_drawer.dart';
 import 'package:pedidos/widgets/badge.dart';
-import 'package:pedidos/widgets/product_grid.dart';
+import 'package:pedidos/widgets/pedido_list.dart';
 import '../utils/app_routes.dart';
 
 enum FilterOptions {
@@ -26,7 +26,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   void initState() {
     super.initState();
     // "listen = false" pq vai ficar por initState
-    Provider.of<Products>(context, listen: false).loadProducts().then(
+    Provider.of<Pedidos>(context, listen: false).loadProducts().then(
       (_) {
         setState(
           () {
@@ -43,8 +43,12 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
     // Onde conecta esse contexto ao contexto do main (ctx)
     return Scaffold(
       appBar: AppBar(
-        title: Text('Minha Loja'),
+        title: Text('Recebimentos'),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
           Consumer<Cart>(
             // Em relação ao Consumer, child é o que não vai ser modificado
             child: IconButton(
@@ -53,6 +57,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 Navigator.of(context).pushNamed(AppRoutes.CART);
               },
             ),
+
             // O que vai ser modificado:
             builder: (ctx, cart, child) => Badge(
               value: cart.itemsCount.toString(),
@@ -84,11 +89,30 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ProductGrid(_showFavoriteOnly),
+      body: Container(
+        margin: EdgeInsetsDirectional.all(16.0),
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                top: 6.0,
+                bottom: 24.0,
+                left: 20.0,
+              ),
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                "hoje",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+            _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : PedidoList(),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,32 +1,34 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:pedidos/exceptions/http_exception.dart';
-import 'package:pedidos/utils/constants.dart';
-
 //    MARCAÇÃO FAVORITO
 // A marcação de favorito foi deixado nos próprios produtos internamente e no
 //servidor fica uma parte separada para os favoritos de cada usuário.
 
-class Product with ChangeNotifier {
-  // id é do retorno do servidor
-  final String id;
-  final String title;
-  final String description;
-  final double price;
-  final String imageUrl;
-  bool isFavorite;
+// fornecedor precisa de nome e lista de pedidos
+// produto precisa ter nome, código (é do proprio produto), quantidade
+import 'package:http/http.dart' as http;
+import 'package:pedidos/exceptions/http_exception.dart';
+import 'package:pedidos/utils/constants.dart';
+import 'package:flutter/material.dart';
 
-  Product({
-    this.id,
-    @required this.description,
-    @required this.title,
-    @required this.price,
-    @required this.imageUrl,
-    this.isFavorite = false,
+class Produto with ChangeNotifier {
+  // id é do retorno do servidor
+  final int cod;
+  final String title;
+  double quant = 0;
+  //final double price;
+  final String imageUrl;
+  //bool isFavorite;
+
+  Produto({
+    this.quant,
+    this.cod,
+    //@required this.quant,
+    this.title,
+    //@required this.price,
+    this.imageUrl,
+    //this.isFavorite = false,
   });
 //------------------------------------------------------------------------------
+/*
   Future<void> toggleFavorite(String token, String userId) async {
     final _baseUrl = '${Constants.BASE_API_URL}/userFavorites/$userId';
 
@@ -52,4 +54,5 @@ class Product with ChangeNotifier {
 
     notifyListeners();
   }
+  */
 }

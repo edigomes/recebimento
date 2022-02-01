@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/providers/pedido.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/products.dart';
-import 'package:pedidos/widgets/product_grid_item.dart';
+import 'package:pedidos/providers/pedidos.dart';
+import 'package:pedidos/widgets/pedido_list_item.dart';
 
 // Lista em forma de grade
 
-class ProductGrid extends StatelessWidget {
-  final bool showFavoriteOnly;
+class PedidoList extends StatelessWidget {
+  //final bool showFavoriteOnly;
 
-  const ProductGrid(this.showFavoriteOnly);
+  //const ProductGrid(this.showFavoriteOnly);
 
   @override
   Widget build(BuildContext context) {
-    final productsProvider = Provider.of<Products>(context); // Provider
-    final products = showFavoriteOnly // Lista de produtos filtrada ou não
-        ? productsProvider.favoriteItems
-        : productsProvider.items;
-    return GridView.builder(
+    final pedidoProvider = Provider.of<Pedidos>(context); // Provider
+    final Pedido pedido = Pedido();
+    //final pedidos =
+    //fornecedorProvider.pedidos; // Lista de produtos filtrada ou não
+
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return ChangeNotifierProvider.value(
+          value: pedidoProvider.items[index],
+          child: ProductListItem(pedido),
+        );
+      },
+      itemCount: pedidoProvider.items.length,
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+    );
+
+    /*return GridView.builder(
       padding: const EdgeInsets.all(10),
       itemCount: products.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
@@ -35,5 +49,6 @@ class ProductGrid extends StatelessWidget {
         mainAxisSpacing: 10,
       ),
     );
+    */
   }
 }
