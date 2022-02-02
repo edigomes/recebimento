@@ -62,6 +62,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
             elevation: 4,
             child: Column(
               children: [
+                //--------------------------------------------------------------
                 Card(
                   child: ListTile(
                     leading: CircleAvatar(
@@ -82,6 +83,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                 // margin: EdgeInsets.only(top: 0.5),
                 //padding: EdgeInsets.only(top: 0.5),
                 //),
+                //--------------------------------------------------------------
                 Card(
                   elevation: 4,
                   margin: EdgeInsets.only(
@@ -93,92 +95,110 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     margin: EdgeInsetsDirectional.all(16),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(Icons.add_box),
-                                Container(
-                                    margin:
-                                        EdgeInsetsDirectional.only(end: 12)),
-                                Text(
-                                  "015",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                width: 30,
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "CX",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  Container(
+                                      margin:
+                                          EdgeInsetsDirectional.only(end: 12)),
+                                  Text(
+                                    "015",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "CX",
-                                  style: TextStyle(fontSize: 20),
+                              Expanded(
+                                child: SizedBox(
+                                  width: 30,
                                 ),
-                                //
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.add),
-                                ),
-                                //
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.remove),
-                                )
-                                //
-                              ],
-                            ),
-                          ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(18),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.add),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.all(15),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.remove),
+                                  )
+                                  //
+                                ],
+                              ),
+                            ],
+                          ),
+                          margin: EdgeInsets.only(right: 20),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 6),
+                          margin: EdgeInsets.only(top: 12),
                         ),
                         Row(
                           children: [
-                            Icon(Icons.add),
+                            //Icon(Icons.plus_one),
+                            Text(
+                              "UN",
+                              style: TextStyle(fontSize: 20),
+                            ),
                             Container(
                                 margin: EdgeInsetsDirectional.only(end: 12)),
                             Text(
                               "150",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             Expanded(
                               child: SizedBox(
                                 width: 30,
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "UN",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                //
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.add),
-                                ),
-                                //
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.remove),
-                                )
-                                //
-                              ],
-                            )
+                            Container(
+                              margin: EdgeInsets.only(right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(17),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.add),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.all(15),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.remove),
+                                  )
+                                  //
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
                 ),
+                //--------------------------------------------------------------
                 Card(
                   elevation: 4,
                   margin: EdgeInsets.only(
@@ -254,7 +274,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                           ),
                           Expanded(
                             child: Container(
-                              margin: EdgeInsets.all(8),
+                              margin: EdgeInsets.only(bottom: 16, right: 8),
                               child: TextFormField(
                                 decoration: InputDecoration(
                                     labelText: "Entre o código de barras"),

@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
         //Precisa ter o "< >" pra "auth" fazer sentido com "Auth"
         ChangeNotifierProxyProvider<Auth, Pedidos>(
           create: (ctx) {
-            print('create');
             return Pedidos();
           },
           // Só preciso saber qual o momento q o token vai mudar

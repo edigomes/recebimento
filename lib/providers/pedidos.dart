@@ -55,8 +55,17 @@ class Pedidos with ChangeNotifier {
   Future<void> loadProducts() async {
     if (_items.isNotEmpty) _items.clear();
 
-    final pedidoResponse = await http.get(Uri.parse(
-        'https://reqres.in/api/users/2' /*'$_baseUrl/$_userId.json?auth=$_token'*/));
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': _token,
+      'Name': 'Antony',
+    };
+
+    final pedidoResponse = await http.get(
+        Uri.parse(
+            'https://reqres.in/api/users/2' /*'$_baseUrl/$_userId.json?auth=$_token'*/),
+        headers: requestHeaders);
     final Map<String, dynamic> dataPedido = jsonDecode(pedidoResponse.body);
 
     final produtosResponse = await http.get(
