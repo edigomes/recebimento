@@ -11,7 +11,7 @@ import 'package:pedidos/views/cart_screen.dart';
 import 'package:pedidos/views/orders_screen.dart';
 import 'package:pedidos/views/product_detail_screen.dart';
 import 'package:pedidos/views/product_form_screen.dart';
-import 'package:pedidos/views/product_overview_screen.dart';
+import 'package:pedidos/views/recebimento_overview_screen.dart';
 import 'package:pedidos/views/products_screen.dart';
 import 'package:pedidos/views/screen_for_auth.dart';
 import '../utils/app_routes.dart';
@@ -38,13 +38,13 @@ class MyApp extends StatelessWidget {
         //ProxyProvider precisar usar qm ta acima dele
         //Único método de fazer Providers conversarem entre si.
         //Precisa ter o "< >" pra "auth" fazer sentido com "Auth"
-        ChangeNotifierProxyProvider<Auth, Pedidos>(
+        ChangeNotifierProxyProvider<Auth, Recebimentos>(
           create: (ctx) {
-            return Pedidos();
+            return Recebimentos();
           },
           // Só preciso saber qual o momento q o token vai mudar
           update: (ctx, auth, previousProducts) {
-            return Pedidos(
+            return Recebimentos(
               // "previous" deve ser obrigatório msm
               // No momento de colocar o "token", Products é reconstruído com "create" dnv, por isso precisa de "previous"
               auth.token,
@@ -85,13 +85,14 @@ class MyApp extends StatelessWidget {
         routes: {
           //AppRoutes.AUTH: (ctx) => AuthScreen(),
           AppRoutes.SCREEN_FOR_AUTH: (ctx) => ScreenForAuth(),
-          AppRoutes.HOME: (ctx) => ProductOverviewScreen(),
+          AppRoutes.HOME: (ctx) => RecebimentoOverviewScreen(),
           AppRoutes.CART: (ctx) => CartScreen(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
           AppRoutes.ORDERS: (ctx) => OrdersScreen(),
           AppRoutes.PRODUCTS: (ctx) => ProductsScreen(),
           AppRoutes.PRODUCT_FORM: (ctx) => ProductFormScreen(),
-          AppRoutes.SCREEN_PEDIDO: (ctx) => PedidoScreen(),
+          AppRoutes.SCREEN_PEDIDO: (ctx) =>
+              PedidoScreen(pedido: ModalRoute.of(ctx).settings.arguments),
           AppRoutes.SCREEN_PRODUTO: (ctx) => ProdutoScreen(),
         },
       ),

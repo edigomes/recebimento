@@ -27,32 +27,25 @@ class ProductListItem extends StatelessWidget {
 
     // itens tela principal dos produtos
 
-    return Card(
-      elevation: 3.0,
-      child: ListTile(
-        title: Container(
-          margin: EdgeInsets.only(
-            bottom: 6.0,
-          ),
-          child: Text(
-            // vai ser de acordo com a lista de produtos
-            pedido.nomeFornecedor,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        subtitle: Text('ID: ${pedido.id}' + ' | ' + '${pedido.notaFiscal}'),
-        //leading: CircleAvatar(
-        //backgroundImage: NetworkImage(product.imageUrl), //(product.imageUrl),
-        //),
-        trailing: IconButton(
-          icon: Icon(Icons.navigate_next),
-          onPressed: () {
-            Navigator.of(context).pushNamed(
-              AppRoutes.SCREEN_PEDIDO,
-              arguments: pedido,
-            );
-          },
-        ),
+    return ListTile(
+      contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
+      title: Text(
+        // vai ser de acordo com a lista de produtos
+        pedido.nomeFornecedor,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text('ID: ${pedido.id}' + ' | ' + '${pedido.notaFiscal}'),
+      //leading: CircleAvatar(
+      //backgroundImage: NetworkImage(product.imageUrl), //(product.imageUrl),
+      //),
+      trailing: IconButton(
+        icon: Icon(Icons.navigate_next),
+        onPressed: () {
+          Navigator.of(context).pushNamed(
+            AppRoutes.SCREEN_PEDIDO,
+            arguments: pedido,
+          );
+        },
       ),
     );
 

@@ -6,7 +6,9 @@ import 'package:pedidos/widgets/produto_list_item.dart';
 import 'package:provider/provider.dart';
 
 class PedidoScreen extends StatefulWidget {
-  //const PedidoScreen();
+  final Pedido pedido;
+
+  const PedidoScreen({Key key, this.pedido}) : super(key: key);
 
   @override
   _PedidoScreenState createState() => _PedidoScreenState();
@@ -19,7 +21,9 @@ class _PedidoScreenState extends State<PedidoScreen> {
   void initState() {
     super.initState();
     // "listen = false" pq vai ficar por initState
-    Provider.of<Pedidos>(context, listen: false).loadProducts().then(
+    Provider.of<Recebimentos>(context, listen: false)
+        .loadProdutos(widget.pedido.id)
+        .then(
       (_) {
         setState(
           () {
@@ -32,7 +36,10 @@ class _PedidoScreenState extends State<PedidoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Argumentos rota
     Pedido pedido = ModalRoute.of(context).settings.arguments;
+    // Provider
+    final provider = Provider.of<Recebimentos>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +66,11 @@ class _PedidoScreenState extends State<PedidoScreen> {
         ],
       ),
       body: Container(
-        margin: EdgeInsetsDirectional.all(16.0),
+        margin: EdgeInsetsDirectional.only(
+          top: 20,
+          start: 5,
+          end: 5,
+        ),
         child: Column(
           children: [
             Container(
@@ -89,10 +100,8 @@ class _PedidoScreenState extends State<PedidoScreen> {
               ),
             ),
             _isLoading
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : ProdutoList(pedido),
+                ? Center(child: CircularProgressIndicator())
+                : ProdutoList(provider.produtoItems),
           ],
         ),
       ),

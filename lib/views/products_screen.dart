@@ -7,12 +7,12 @@ import 'package:pedidos/widgets/product_item.dart';
 
 class ProductsScreen extends StatelessWidget {
   Future<void> _refreshProducts(BuildContext context) {
-    return Provider.of<Pedidos>(context, listen: false).loadProducts();
+    return Provider.of<Recebimentos>(context, listen: false).loadRecebimentos();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Pedidos productsData = Provider.of(context);
+    final Recebimentos productsData = Provider.of(context);
     final products = productsData.items;
     return Scaffold(
       appBar: AppBar(

@@ -29,10 +29,11 @@ class Auth with ChangeNotifier {
 
   // Se for não for nulo e tiver tempo maior que o atual, retorna token orig
   String get token {
-    if (_token != null &&
+    /*if (_token != null &&
         _expiryDate.isAfter(
           DateTime.now(),
-        )) {
+        )) {*/
+    if (_token != null) {
       return _token;
     } else {
       return null;
@@ -42,9 +43,17 @@ class Auth with ChangeNotifier {
 //------------------------------------------------------------------------------
 
   Future<void> _authentication(
-      String email, String password, String segmentUrl) async {
-    String _url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$segmentUrl?key=AIzaSyCNxRdwlwCjFVHN3K5QLw_jVUSn_Jgu8ew';
+    String email,
+    String password,
+    String segmentUrl,
+  ) async {
+    //String _url = 'https://identitytoolkit.googleapis.com/v1/accounts:$segmentUrl?key=AIzaSyCNxRdwlwCjFVHN3K5QLw_jVUSn_Jgu8ew';
+    String _url = 'http://extracarne.aconos.com.br/api/v1/authenticate';
+
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json'
+    };
 
     final response = await http.post(
       Uri.parse(_url),
@@ -56,23 +65,33 @@ class Auth with ChangeNotifier {
           'returnSecureToken': true, // Deve ser enviado e sempre true
         },
       ),
+      headers: headers,
     );
 
     final responseBody = jsonDecode(response.body);
-    print(response.body.toString());
+
+    print('<<<<<<<<<<<<<<<<0');
+    print(responseBody['error'] != null);
+    print('<<<<<<<<<<<<<<<<01');
+
     if (responseBody['error'] != null) {
+      print('<<<<<<<<<<<<<<<<1');
       // entrega a "message" que é de um Map de Map
-      throw AuthException(responseBody['error']['message']);
+      throw AuthException(responseBody['error']);
     } else {
-      _token = responseBody['idToken']; // varia
-      _userId = responseBody['localId']; // cada usuário tem um
-      _expiryDate = DateTime.now().add(
-        Duration(
-          seconds: int.parse(responseBody['expiresIn']),
-        ),
-      );
+      print('<<<<<<<<<<<<<<<<2');
+      _token = responseBody['token']; // varia
+      _userId = responseBody['user']['id'].toString(); // cada usuário tem um
+      // _expiryDate = DateTime.now().add(
+      //   Duration(
+      //     seconds: int.parse(responseBody['expiresIn']),
+      //   ),
+      // );
       //print(responseBody.toString());
+
     }
+
+    print('<<<<<<<<<<<<<<<<3');
 
     Store.saveMap(
       'userData',
@@ -81,11 +100,11 @@ class Auth with ChangeNotifier {
         'userId': _userId,
         // Esse toIso precisa smp ser usado senão não funciona.
         //Se só "_expiryDate," não dá certo (muito erro).
-        'expiryDate': _expiryDate.toIso8601String(),
+        //'expiryDate': _expiryDate.toIso8601String(),
       },
     );
 
-    _autoLogout();
+    //_autoLogout();
 
     notifyListeners();
 
@@ -121,16 +140,16 @@ class Auth with ChangeNotifier {
 
     // Passa de string pra DateTime
     // Depois do toIso8601 pode passar pra DateTime
-    final expiryDate = DateTime.parse(userData['expiryDate']);
+    //final expiryDate = DateTime.parse(userData['expiryDate']);
 
     // Se o tempo expirou, para de fazer login auto
-    if (expiryDate.isBefore(DateTime.now())) {
-      return Future.value();
-    }
+    //if (expiryDate.isBefore(DateTime.now())) {
+    //  return Future.value();
+    //}
 
     _userId = userData['userId'];
     _token = userData['token'];
-    _expiryDate = expiryDate;
+    //_expiryDate = expiryDate;
 
     autoLogin();
 

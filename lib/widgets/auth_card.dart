@@ -66,9 +66,10 @@ class _AuthCardState extends State<AuthCard> {
       }
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
-    } catch (error) {
-      _showErrorDialog('ocorreu um erro inesperado!');
-    }
+    } /*catch (error) {
+      print(error);
+      _showErrorDialog('ocorreu um erro inesperados!');
+    }*/
 
     setState(() {
       _isLoading = false;

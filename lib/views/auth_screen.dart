@@ -14,8 +14,8 @@ class AuthScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Color.fromRGBO(255, 10, 10, 0.8),
-                Color.fromRGBO(50, 10, 255, 1),
+                Colors.blue,
+                Colors.blueAccent,
               ], begin: Alignment.topLeft, end: Alignment.bottomRight),
             ),
           ),
@@ -43,10 +43,10 @@ class AuthScreen extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    'Minha Loja',
+                    'Recebimento de Mercadoria',
                     style: TextStyle(
                         fontFamily: 'Anton',
-                        fontSize: 45,
+                        fontSize: 18,
                         color:
                             Theme.of(context).accentTextTheme.headline6.color),
                   ),

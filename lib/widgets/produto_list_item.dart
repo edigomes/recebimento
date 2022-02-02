@@ -19,7 +19,7 @@ class ProdutoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3.0,
+      elevation: 1.0,
       child: ListTile(
         title: Container(
           margin: EdgeInsets.only(

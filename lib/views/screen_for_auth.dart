@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/providers/auth.dart';
 import 'package:pedidos/views/auth_screen.dart';
-import 'package:pedidos/views/product_overview_screen.dart';
+import 'package:pedidos/views/recebimento_overview_screen.dart';
 
 class ScreenForAuth extends StatelessWidget {
   //const ScreenForAuth({ Key? key }) : super(key: key);
@@ -24,7 +24,7 @@ class ScreenForAuth extends StatelessWidget {
           );
         } else {
           // Já q só manda pra outra tela, n preci de Consumer (n é algo ativo)
-          return auth.isAuth ? ProductOverviewScreen() : AuthScreen();
+          return auth.isAuth ? RecebimentoOverviewScreen() : AuthScreen();
         }
       },
     );
