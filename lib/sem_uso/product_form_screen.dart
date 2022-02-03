@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/providers/produto.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/pedidos.dart';
+import 'package:pedidos/providers/recebimentos.dart';
 
 // Há 2 formas de passar o Product: null ou por arguments
 

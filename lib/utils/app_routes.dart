@@ -7,6 +7,6 @@ class AppRoutes {
   static const ORDERS = '/orders';
   static const PRODUCTS = '/products';
   static const PRODUCT_FORM = '/product-form';
-  static const SCREEN_PEDIDO = '/pedido';
+  static const SCREEN_RECEBIMENTO_DETAIL = '/recebimento-detail';
   static const SCREEN_PRODUTO = '/produto';
 }

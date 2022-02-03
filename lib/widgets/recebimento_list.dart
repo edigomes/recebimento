@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pedidos/providers/pedido.dart';
+import 'package:pedidos/providers/recebimento.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/pedidos.dart';
-import 'package:pedidos/widgets/pedido_list_item.dart';
+import 'package:pedidos/providers/recebimentos.dart';
+import 'package:pedidos/widgets/recebimento_list_item.dart';
 
 // Lista em forma de grade
 
-class PedidoList extends StatelessWidget {
+class RecebimentoList extends StatelessWidget {
   //final bool showFavoriteOnly;
 
   //const ProductGrid(this.showFavoriteOnly);
@@ -14,7 +14,7 @@ class PedidoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pedidoProvider = Provider.of<Recebimentos>(context); // Provider
-    final Pedido pedido = Pedido();
+    final Recebimento pedido = Recebimento();
     //final pedidos =
     //fornecedorProvider.pedidos; // Lista de produtos filtrada ou não
 
@@ -24,7 +24,7 @@ class PedidoList extends StatelessWidget {
         itemBuilder: (context, index) {
           return ChangeNotifierProvider.value(
             value: pedidoProvider.items[index],
-            child: ProductListItem(pedido),
+            child: RecebimentoListItem(pedido),
           );
         },
         separatorBuilder: (context, index) {

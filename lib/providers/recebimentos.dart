@@ -5,9 +5,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedidos/exceptions/http_exception.dart';
-import 'package:pedidos/providers/pedido.dart';
+import 'package:pedidos/providers/recebimento.dart';
 import 'package:pedidos/providers/produto.dart';
 import 'package:pedidos/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 // O único lugar que Products é usado como instância é em "main". Provavelmente, pra passar da melhor forma
 //deve ser feito por ProxyProvider
@@ -16,7 +17,7 @@ class Recebimentos with ChangeNotifier {
 //----------------------------------------------------------------------------//
   // a lista pede pra ser constante
 
-  List<Pedido> _items = [];
+  List<Recebimento> _items = [];
   List<Produto> _produtoItems = [];
 
   String _token;
@@ -35,7 +36,7 @@ class Recebimentos with ChangeNotifier {
   // da lista principal. Em definitivo, ... limita.
 
   // O TOKEN é usado para reconhecer o produto do USUÁRIO com seu token person
-  List<Pedido> get items {
+  List<Recebimento> get items {
     return [..._items];
   }
 
@@ -68,7 +69,7 @@ class Recebimentos with ChangeNotifier {
     };
 
     final recebimentoResponse = await http.get(
-      Uri.parse('$_baseUrl/entrada'),
+      Uri.parse('$_baseUrl/entrada?page=1'), //&custom={"status":"1"}'),
       headers: headers,
     );
 
@@ -80,13 +81,15 @@ class Recebimentos with ChangeNotifier {
 
       for (var recebimento in data) {
         _items.add(
-          Pedido(
-            id: recebimento['id'],
-            notaFiscal: recebimento['nNF'],
+          // agora como construtor opcional
+          Recebimento(
             nomeFornecedor: recebimento['fornecedor'] == null
                 ? '--'
                 : recebimento['fornecedor']['xFant'],
-            dataPedido: recebimento['dEmi'],
+            dataPedido: DateTime.parse(recebimento['dEmi']),
+            id: recebimento['id'],
+            notaFiscal: recebimento['nNF'],
+
             // produtos: (dataProduto['data'] as List<dynamic>)
             //   .map(
             //     (item) => Produto(
@@ -107,14 +110,16 @@ class Recebimentos with ChangeNotifier {
     return Future.value();
   }
 
+//------------------------------------------------------------------------------
+
   Future<void> loadProdutos(id) async {
-    if (_items.isNotEmpty) _items.clear();
+    // antes duplicava pq tava _items
+    if (_produtoItems.isNotEmpty) _produtoItems.clear();
 
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $_token',
-      'Name': 'Antony',
     };
 
     final recebimentoResponse = await http.get(
@@ -128,13 +133,15 @@ class Recebimentos with ChangeNotifier {
 
     if (dataRecebimentos != null) {
       var data = dataRecebimentos['data'];
-
+      print(data);
       for (var recebimento_item in data) {
         _produtoItems.add(
           Produto(
-              cod: recebimento_item['mercadoria_id'],
-              title: recebimento_item['mercadoria']['xProd'],
-              imageUrl: 'url'),
+            cod: recebimento_item['mercadoria_id'],
+            title: recebimento_item['mercadoria']['xProd'],
+            imageUrl: 'url',
+            quant: double.parse(recebimento_item['qTrib']),
+          ),
         );
       }
       notifyListeners();

@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:pedidos/providers/pedido.dart';
+import 'package:pedidos/providers/recebimento.dart';
 import 'package:pedidos/providers/produto.dart';
+import 'package:pedidos/providers/recebimentos.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/exceptions/http_exception.dart';
 import 'package:pedidos/providers/auth.dart';
-import 'package:pedidos/providers/cart.dart';
+import 'package:pedidos/sem_uso/cart.dart';
 import 'package:pedidos/utils/app_routes.dart';
-import '../providers/cart.dart';
+import '../sem_uso/cart.dart';
 
 // Formato dos produtos do app, com foto e interações em stack,
 //como favorito e add carrinho ao lado.
 
-class ProductListItem extends StatelessWidget {
-  Pedido pedido;
+class RecebimentoListItem extends StatelessWidget {
+  Recebimento recebimento;
 
-  ProductListItem(this.pedido);
+  RecebimentoListItem(this.recebimento);
 
   @override
   Widget build(BuildContext context) {
-    pedido = Provider.of<Pedido>(context, listen: false);
+    recebimento = Provider.of<Recebimento>(context, listen: false);
+    Recebimentos recebimentosProvider =
+        Provider.of<Recebimentos>(context, listen: false);
     //final Fornecedor fornecedor = Provider.of(context, listen: false);
 
     final Cart cart = Provider.of(context, listen: false);
@@ -31,20 +34,24 @@ class ProductListItem extends StatelessWidget {
       contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
       title: Text(
         // vai ser de acordo com a lista de produtos
-        pedido.nomeFornecedor,
+        recebimento.nomeFornecedor,
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
-      subtitle: Text('ID: ${pedido.id}' + ' | ' + '${pedido.notaFiscal}'),
+      subtitle:
+          Text('ID: ${recebimento.id}' + ' | ' + '${recebimento.notaFiscal}'),
       //leading: CircleAvatar(
       //backgroundImage: NetworkImage(product.imageUrl), //(product.imageUrl),
       //),
       trailing: IconButton(
         icon: Icon(Icons.navigate_next),
         onPressed: () {
-          Navigator.of(context).pushNamed(
-            AppRoutes.SCREEN_PEDIDO,
-            arguments: pedido,
-          );
+          Navigator.of(context)
+              .pushNamed(
+                AppRoutes.SCREEN_RECEBIMENTO_DETAIL,
+                arguments: recebimento,
+              )
+              .then((value) async =>
+                  await recebimentosProvider.loadRecebimentos());
         },
       ),
     );

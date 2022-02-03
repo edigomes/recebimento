@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/cart.dart';
+import 'package:pedidos/sem_uso/cart.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem cartItem;

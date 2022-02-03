@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pedidos/providers/produto.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/exceptions/http_exception.dart';
-import 'package:pedidos/providers/pedidos.dart';
+import 'package:pedidos/providers/recebimentos.dart';
 import 'package:pedidos/utils/app_routes.dart';
 
 class ProdutoItem extends StatelessWidget {

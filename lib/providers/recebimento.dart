@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pedidos/providers/produto.dart';
 
-class Pedido with ChangeNotifier {
-  int notaFiscal;
+class Recebimento with ChangeNotifier {
   String nomeFornecedor;
+  DateTime dataPedido;
   int id;
-  String dataPedido;
+  int notaFiscal;
   List<Produto> produtos = []; // n precisa de construt
 
-  Pedido({
+  Recebimento({
     this.nomeFornecedor,
     this.dataPedido,
     this.id,

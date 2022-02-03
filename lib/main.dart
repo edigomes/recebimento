@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pedidos/views/pedido_screen.dart';
-import 'package:pedidos/views/produto_screen.dart';
+import 'package:pedidos/views/recebimento_detail_screen.dart';
+import 'package:pedidos/views/produto_detail_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/cart.dart';
-import 'package:pedidos/providers/orders.dart';
-import 'package:pedidos/providers/pedidos.dart';
+import 'package:pedidos/sem_uso/cart.dart';
+import 'package:pedidos/sem_uso/orders.dart';
+import 'package:pedidos/providers/recebimentos.dart';
 import 'package:pedidos/utils/app_routes.dart';
 import 'package:pedidos/providers/auth.dart';
-import 'package:pedidos/views/cart_screen.dart';
-import 'package:pedidos/views/orders_screen.dart';
-import 'package:pedidos/views/product_detail_screen.dart';
-import 'package:pedidos/views/product_form_screen.dart';
+import 'package:pedidos/sem_uso/cart_screen.dart';
+import 'package:pedidos/sem_uso/orders_screen.dart';
+import 'package:pedidos/sem_uso/product_detail_screen.dart';
+import 'package:pedidos/sem_uso/product_form_screen.dart';
 import 'package:pedidos/views/recebimento_overview_screen.dart';
-import 'package:pedidos/views/products_screen.dart';
+import 'package:pedidos/sem_uso/produto_screen.dart';
 import 'package:pedidos/views/screen_for_auth.dart';
 import '../utils/app_routes.dart';
 
@@ -89,11 +89,11 @@ class MyApp extends StatelessWidget {
           AppRoutes.CART: (ctx) => CartScreen(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
           AppRoutes.ORDERS: (ctx) => OrdersScreen(),
-          AppRoutes.PRODUCTS: (ctx) => ProductsScreen(),
+          //AppRoutes.PRODUCTS: (ctx) => ProductsScreen(),
           AppRoutes.PRODUCT_FORM: (ctx) => ProductFormScreen(),
-          AppRoutes.SCREEN_PEDIDO: (ctx) =>
-              PedidoScreen(pedido: ModalRoute.of(ctx).settings.arguments),
-          AppRoutes.SCREEN_PRODUTO: (ctx) => ProdutoScreen(),
+          AppRoutes.SCREEN_RECEBIMENTO_DETAIL: (ctx) => RecebimentoDetailScreen(
+              recebimento: ModalRoute.of(ctx).settings.arguments),
+          AppRoutes.SCREEN_PRODUTO: (ctx) => RecebimentoDetail(),
         },
       ),
     );

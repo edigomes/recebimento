@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/orders.dart';
+import 'package:pedidos/sem_uso/orders.dart';
 import 'package:pedidos/widgets/app_drawer.dart';
-import 'package:pedidos/widgets/order_widget.dart';
+import 'package:pedidos/sem_uso/order_widget.dart';
 
 class OrdersScreen extends StatelessWidget {
   @override

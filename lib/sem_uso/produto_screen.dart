@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/pedidos.dart';
+import 'package:pedidos/providers/recebimentos.dart';
 import 'package:pedidos/utils/app_routes.dart';
 import 'package:pedidos/widgets/app_drawer.dart';
-import 'package:pedidos/widgets/product_item.dart';
+import 'package:pedidos/sem_uso/product_item_widget.dart';
 
-class ProductsScreen extends StatelessWidget {
-  Future<void> _refreshProducts(BuildContext context) {
-    return Provider.of<Recebimentos>(context, listen: false).loadRecebimentos();
+class ProdutoScreen extends StatelessWidget {
+  // colocado a async e await
+  Future<void> _refreshProducts(BuildContext context) async {
+    return await Provider.of<Recebimentos>(context, listen: false)
+        .loadRecebimentos();
   }
 
   @override
   Widget build(BuildContext context) {
     final Recebimentos productsData = Provider.of(context);
     final products = productsData.items;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Gerenciar Produtos'),

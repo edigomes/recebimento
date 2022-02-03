@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pedidos/providers/pedido.dart';
+import 'package:pedidos/providers/recebimento.dart';
 import 'package:pedidos/providers/produto.dart';
 import 'package:pedidos/widgets/produto_list_item.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/pedidos.dart';
-import 'package:pedidos/widgets/pedido_list_item.dart';
+import 'package:pedidos/providers/recebimentos.dart';
+import 'package:pedidos/widgets/recebimento_list_item.dart';
 import 'package:pedidos/utils/constants.dart';
 
 // Lista em forma de grade
 
 class ProdutoList extends StatelessWidget {
   //final bool showFavoriteOnly;
-  ProdutoList(this.produtoItems);
+  ProdutoList({this.produtoItems, this.recebimento});
   List<Produto> produtoItems;
+  Recebimento recebimento;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,10 @@ class ProdutoList extends StatelessWidget {
         itemBuilder: (context, index) {
           return ChangeNotifierProvider.value(
             value: produtos[index],
-            child: ProdutoListItem(produtos[index]),
+            child: ProdutoListItem(
+              produto: produtos[index],
+              recebimento: recebimento,
+            ),
           );
         },
         separatorBuilder: (context, index) {

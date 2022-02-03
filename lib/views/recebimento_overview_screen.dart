@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pedidos/providers/cart.dart';
-import 'package:pedidos/providers/pedidos.dart';
+import 'package:pedidos/sem_uso/cart.dart';
+import 'package:pedidos/providers/recebimentos.dart';
 import 'package:pedidos/widgets/app_drawer.dart';
-import 'package:pedidos/widgets/badge.dart';
-import 'package:pedidos/widgets/pedido_list.dart';
+import 'package:pedidos/sem_uso/badge.dart';
+import 'package:pedidos/widgets/recebimento_list.dart';
 import '../utils/app_routes.dart';
 
 enum FilterOptions {
@@ -20,8 +20,14 @@ class RecebimentoOverviewScreen extends StatefulWidget {
 }
 
 class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
-  bool _showFavoriteOnly = false;
   bool _isLoading = true;
+
+//----------------------------------------------------------------------------
+  // Aqui é usado "id" do respectivo recebimento
+  Future<void> _refreshRecebimentos(BuildContext context) async {
+    await Provider.of<Recebimentos>(context, listen: false).loadRecebimentos();
+  }
+  //----------------------------------------------------------------------------
 
   @override
   void initState() {
@@ -53,14 +59,21 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: Container(
-        margin: EdgeInsetsDirectional.all(16.0),
-        child: Column(
-          children: [
-            _isLoading
-                ? Center(child: CircularProgressIndicator())
-                : PedidoList(),
-          ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _isLoading = true;
+          await _refreshRecebimentos(context)
+              .then((value) => _isLoading = false);
+        },
+        child: Container(
+          margin: EdgeInsetsDirectional.all(16.0),
+          child: Column(
+            children: [
+              _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : RecebimentoList(),
+            ],
+          ),
         ),
       ),
     );

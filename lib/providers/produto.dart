@@ -13,7 +13,7 @@ class Produto with ChangeNotifier {
   // id é do retorno do servidor
   final int cod;
   final String title;
-  double quant = 0;
+  final double quant;
   //final double price;
   final String imageUrl;
   //bool isFavorite;

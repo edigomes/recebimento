@@ -70,16 +70,10 @@ class Auth with ChangeNotifier {
 
     final responseBody = jsonDecode(response.body);
 
-    print('<<<<<<<<<<<<<<<<0');
-    print(responseBody['error'] != null);
-    print('<<<<<<<<<<<<<<<<01');
-
     if (responseBody['error'] != null) {
-      print('<<<<<<<<<<<<<<<<1');
       // entrega a "message" que é de um Map de Map
       throw AuthException(responseBody['error']);
     } else {
-      print('<<<<<<<<<<<<<<<<2');
       _token = responseBody['token']; // varia
       _userId = responseBody['user']['id'].toString(); // cada usuário tem um
       // _expiryDate = DateTime.now().add(
@@ -90,8 +84,6 @@ class Auth with ChangeNotifier {
       //print(responseBody.toString());
 
     }
-
-    print('<<<<<<<<<<<<<<<<3');
 
     Store.saveMap(
       'userData',

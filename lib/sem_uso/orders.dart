@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
-import 'package:pedidos/providers/cart.dart';
+import 'package:pedidos/sem_uso/cart.dart';
 import 'package:pedidos/utils/constants.dart';
 
 class Order {
