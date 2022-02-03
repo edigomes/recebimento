@@ -247,6 +247,7 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetail> {
                                   Container(
                                     margin: EdgeInsets.all(8),
                                   ),
+                                  //
                                   ElevatedButton(
                                     onPressed: () {
                                       setState(() {
