@@ -48,7 +48,7 @@ class ProdutoListItem extends StatelessWidget {
                 )
                 .then((value) async =>
                     await recebimentosProvider.loadProdutos(recebimento.id));
-            print(produto.quant);
+            recebimentosProvider.bProdutosSearch = false;
           },
         ),
       ),

@@ -55,7 +55,9 @@ class Recebimentos with ChangeNotifier {
   }
 
   // usada em "recebimentosOverviewScreen" e "recebimentosList"
-  bool bSearch = false;
+  bool bRecebimentosSearch = false;
+
+  bool bProdutosSearch = false;
 
 //----------------------------------------------------------------------------//
 

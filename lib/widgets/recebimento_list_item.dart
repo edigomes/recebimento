@@ -57,6 +57,8 @@ class RecebimentoListItem extends StatelessWidget {
                   )
                   .then((value) async =>
                       await recebimentosProvider.loadRecebimentos());
+              // Recolhe o widget Searcher (pesquisa) da
+              recebimentosProvider.bRecebimentosSearch = false;
             },
           ),
         ),

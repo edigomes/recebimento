@@ -31,7 +31,7 @@ class RecebimentoList extends StatelessWidget {
 
     // Abaixo uso de ternário entre dois tipos de ListView (pesquisa ou não)
     return Expanded(
-      child: provRecebimentos.bSearch
+      child: provRecebimentos.bRecebimentosSearch
           ? SearchableList<Recebimento>(
               initialList: provRecebimentos.items,
               builder: (dynamic varr) => RecebimentoListItem(

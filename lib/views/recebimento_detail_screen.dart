@@ -6,6 +6,10 @@ import 'package:pedidos/widgets/produto_list.dart';
 import 'package:pedidos/widgets/produto_list_item.dart';
 import 'package:provider/provider.dart';
 
+// No momento que esta tela é executada a lista de produtos (que vem de
+//"Recebimentos") é filtrada de acordo com o id do recebimento. Logo, enquanto
+//ficar nesta tela, a lista é filtrada.
+
 class RecebimentoDetailScreen extends StatefulWidget {
   final Recebimento recebimento; // vindo por modalroute em main
 
@@ -18,6 +22,9 @@ class RecebimentoDetailScreen extends StatefulWidget {
 
 class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
   bool _isLoading = true;
+
+  // passado p ProdutoList (por param) p o foco no TextField de lá
+  FocusNode _focusNodeSearcher;
 
   //----------------------------------------------------------------------------
   // Aqui é usado "id" do respectivo recebimento
@@ -40,6 +47,7 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
         );
       },
     );
+    _focusNodeSearcher = FocusNode();
   }
 
   @override
@@ -47,15 +55,24 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
     // Argumentos rota
     //Recebimento recebimento = ModalRoute.of(context).settings.arguments;
     // Provider
-    final RecebimentosProvider = Provider.of<Recebimentos>(context);
+    final providerRecebimentos = Provider.of<Recebimentos>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("#" + widget.recebimento.id.toString()),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search),
+            icon: providerRecebimentos.bProdutosSearch
+                ? Icon(Icons.close)
+                : Icon(Icons.search),
+            onPressed: () {
+              providerRecebimentos.bProdutosSearch =
+                  !providerRecebimentos.bProdutosSearch;
+
+              _focusNodeSearcher.requestFocus();
+
+              setState(() {});
+            },
           ),
           PopupMenuButton(
             icon: Icon(Icons.more_vert),
@@ -118,8 +135,9 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
               _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : ProdutoList(
-                      produtoItems: RecebimentosProvider.produtoItems,
+                      produtoItems: providerRecebimentos.produtoItems,
                       recebimento: widget.recebimento,
+                      focusNodeSearcher: _focusNodeSearcher,
                     ),
             ],
           ),

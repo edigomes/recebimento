@@ -25,7 +25,7 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
   bool _isLoading = true;
 
   // passado p RecebimentoList (param) p foco no TextField de lá
-  FocusNode focusNodeSearcher;
+  FocusNode _focusNodeSearcher;
 
 //----------------------------------------------------------------------------
   // Aqui é usado "id" do respectivo recebimento
@@ -47,7 +47,7 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
         );
       },
     );
-    focusNodeSearcher = FocusNode();
+    _focusNodeSearcher = FocusNode();
   }
 
   @override
@@ -66,13 +66,14 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
             Text('Recebimentos'),
         actions: <Widget>[
           IconButton(
-            icon: providerRecebimentos.bSearch
+            icon: providerRecebimentos.bRecebimentosSearch
                 ? Icon(Icons.close)
-                : Icon(Icons.search), //_refreshRecebimentos
+                : Icon(Icons.search),
             onPressed: () async {
               // troca bool de lupa p seu valor oposto
-              providerRecebimentos.bSearch = !providerRecebimentos.bSearch;
-              focusNodeSearcher.requestFocus();
+              providerRecebimentos.bRecebimentosSearch =
+                  !providerRecebimentos.bRecebimentosSearch;
+              _focusNodeSearcher.requestFocus();
               /*if (!_bLupa) {
                 await _refreshRecebimentos(context);
               }*/
@@ -101,7 +102,7 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
                       ),
                     )
                   : RecebimentoList(
-                      focusNodeSearcher: focusNodeSearcher,
+                      focusNodeSearcher: _focusNodeSearcher,
                     ),
             ],
           ),
