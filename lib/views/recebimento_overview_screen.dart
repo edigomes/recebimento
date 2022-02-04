@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos/providers/recebimento.dart';
+import 'package:pedidos/widgets/search_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/sem_uso/cart.dart';
 import 'package:pedidos/providers/recebimentos.dart';
@@ -21,6 +23,11 @@ class RecebimentoOverviewScreen extends StatefulWidget {
 
 class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
   bool _isLoading = true;
+
+  // permite mostrar a lupa (search)
+  bool _bLupa = false;
+  // Focus da lupa (search)
+  bool _bTextFieldAutoFocus = false;
 
 //----------------------------------------------------------------------------
   // Aqui é usado "id" do respectivo recebimento
@@ -47,6 +54,11 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Recebimentos providerRecebimentos = Provider.of<Recebimentos>(context);
+
+    // preciso passar a var abaixo p o construtor do widget de TextForm
+    List<Recebimento> provRecebList = providerRecebimentos.items;
+
     // Onde conecta esse contexto ao contexto do main (ctx)
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +66,12 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              // troca bool de lupa p seu valor oposto
+              _bLupa = !_bLupa;
+              _bTextFieldAutoFocus = !_bTextFieldAutoFocus;
+              setState(() {});
+            },
           ),
         ],
       ),
@@ -66,9 +83,16 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
               .then((value) => _isLoading = false);
         },
         child: Container(
-          margin: EdgeInsetsDirectional.all(16.0),
+          margin: EdgeInsets.all(12),
           child: Column(
             children: [
+              // lupa---------------------------------------------------------
+              _bLupa
+                  ? SearchWidget(
+                      autoFocus: _bTextFieldAutoFocus,
+                    )
+                  : Container(),
+              //--------------------------------------------------------------
               _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : RecebimentoList(),

@@ -6,6 +6,7 @@ import 'package:pedidos/providers/recebimento.dart';
 import 'package:pedidos/providers/recebimentos.dart';
 import 'package:pedidos/providers/produto.dart';
 import 'package:provider/provider.dart';
+import 'package:searchable_listview/searchable_listview.dart';
 
 class RecebimentoDetail extends StatefulWidget {
   @override
@@ -238,7 +239,7 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetail> {
                                     child: Icon(Icons.add, color: Colors.white),
                                     style: ElevatedButton.styleFrom(
                                       shape: CircleBorder(),
-                                      padding: EdgeInsets.all(10),
+                                      padding: EdgeInsets.all(16),
                                       primary: Colors
                                           .cyanAccent[400], // <-- Button color
                                       onPrimary: Colors.red, // <-- Splash color
@@ -296,6 +297,8 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetail> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        // teste da lupa
+                        //SearchableList(initialList: initialList, filter: filter, builder: builder, emptyWidget: , searchTextController: ,),
                         Container(
                           margin: EdgeInsets.all(12),
                           child: ElevatedButton(

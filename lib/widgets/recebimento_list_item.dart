@@ -30,30 +30,35 @@ class RecebimentoListItem extends StatelessWidget {
 
     // itens tela principal dos produtos
 
-    return ListTile(
-      contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
-      title: Text(
-        // vai ser de acordo com a lista de produtos
-        recebimento.nomeFornecedor,
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle:
-          Text('ID: ${recebimento.id}' + ' | ' + '${recebimento.notaFiscal}'),
-      //leading: CircleAvatar(
-      //backgroundImage: NetworkImage(product.imageUrl), //(product.imageUrl),
-      //),
-      trailing: IconButton(
-        icon: Icon(Icons.navigate_next),
-        onPressed: () {
-          Navigator.of(context)
-              .pushNamed(
-                AppRoutes.SCREEN_RECEBIMENTO_DETAIL,
-                arguments: recebimento,
-              )
-              .then((value) async =>
-                  await recebimentosProvider.loadRecebimentos());
-        },
-      ),
+    return Column(
+      children: [
+        Divider(height: 1.2, indent: 1.0),
+        ListTile(
+          contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
+          title: Text(
+            // vai ser de acordo com a lista de produtos
+            recebimento.nomeFornecedor,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+              'ID: ${recebimento.id}' + ' | ' + '${recebimento.notaFiscal}'),
+          //leading: CircleAvatar(
+          //backgroundImage: NetworkImage(product.imageUrl), //(product.imageUrl),
+          //),
+          trailing: IconButton(
+            icon: Icon(Icons.navigate_next),
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamed(
+                    AppRoutes.SCREEN_RECEBIMENTO_DETAIL,
+                    arguments: recebimento,
+                  )
+                  .then((value) async =>
+                      await recebimentosProvider.loadRecebimentos());
+            },
+          ),
+        ),
+      ],
     );
 
     /*

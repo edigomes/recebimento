@@ -41,3 +41,5 @@ https://app.uizard.io/p/8a335400
 
 parei em "id" de produto
 depois preciso fazer a classe de fornecedor e colocar produto dentro
+
+to no widget recebimento_list tentando criar uma lista lá dentro p passar pra o widget de searcheble
