@@ -8,40 +8,41 @@ import 'package:searchable_listview/searchable_listview.dart';
 // Lista em forma de grade
 
 class RecebimentoList extends StatelessWidget {
-  //final bool showFavoriteOnly;
+  FocusNode focusNodeSearcher;
 
-  //const ProductGrid(this.showFavoriteOnly);
+  RecebimentoList({this.focusNodeSearcher});
 
   @override
   Widget build(BuildContext context) {
-    final recebimentosProvider = Provider.of<Recebimentos>(context); // Provider
+    final provRecebimentos = Provider.of<Recebimentos>(context); // Provider
     final Recebimento recebimento = Recebimento();
 
-    /*List<RecebimentoListItem> Lista() {
-       List<RecebimentoListItem> listaWidget;
-      for(var tal in recebimentosProvider.items) {
-        listaWidget.add(RecebimentoListItem(tal.));
-      }
-      RecebimentoListItem()
-      
-    }*/
-    // lista do listview vai ter q vir do widget de search
-    //final pedidos =
-    //fornecedorProvider.pedidos; // Lista de produtos filtrada ou não
+    // Método usado em SearchebleList abaixo
+    List<Recebimento> _filterRecebimentoList(search) {
+      var lista = provRecebimentos.items;
+      return provRecebimentos.items
+          .where(
+            (element) =>
+                element.nomeFornecedor.contains(search) ||
+                element.nomeFornecedor.toLowerCase().contains(search),
+          )
+          .toList();
+    }
 
-/*
-recebimentosProvider.bLupa
-        ? Expanded(
-            child: SearchableList<Recebimento>(
-              initialList: recebimentosProvider.items,
-              builder: (dynamic vars) => RecebimentoListItem(vars),
-              filter: (value) => recebimentosProvider.items
-                  .where(
-                    (element) =>
-                        element.nomeFornecedor.toLowerCase().contains(value),
-                  )
-                  .toList(),
+    // Abaixo uso de ternário entre dois tipos de ListView (pesquisa ou não)
+    return Expanded(
+      child: provRecebimentos.bSearch
+          ? SearchableList<Recebimento>(
+              initialList: provRecebimentos.items,
+              builder: (dynamic varr) => RecebimentoListItem(
+                fornecedorNome: varr.nomeFornecedor,
+                fornecedorId: varr.id,
+                fornecedorNF: varr.notaFiscal,
+                recebimento: varr,
+              ),
+              filter: _filterRecebimentoList,
               emptyWidget: const Text('sem resultado !'),
+              focusNode: focusNodeSearcher,
               inputDecoration: InputDecoration(
                 labelText: "Procurar Recebimento",
                 fillColor: Colors.white,
@@ -53,48 +54,27 @@ recebimentosProvider.bLupa
                   borderRadius: BorderRadius.circular(10.0),
                 ),
               ),
+            )
+          : ListView.separated(
+              itemCount: provRecebimentos.items.length,
+              itemBuilder: (context, index) {
+                return ChangeNotifierProvider.value(
+                  value: provRecebimentos.items[index],
+                  child: RecebimentoListItem(
+                    fornecedorNome:
+                        provRecebimentos.items[index].nomeFornecedor,
+                    fornecedorId: provRecebimentos.items[index].id,
+                    fornecedorNF: provRecebimentos.items[index].notaFiscal,
+                    recebimento: provRecebimentos.items[index],
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider(height: 1.2, indent: 1.0);
+              },
+              scrollDirection: Axis.vertical,
             ),
-          )
-        : 
-*/
-
-// acredito q tem q colocar em child o searchable e dentro do build fica RecebimentoListItem(pedido)
-// na verdade o builder precisa ter acesso ao ítem diretamente
-// se digitar no textformfield do searcheble (!= null) mostra ele, se n mostra o outro
-// isso msm, só preciso usar o textController e usar controller.addListener(função)
-// sempre q onChanged de executar precisa dar setstate()
-
-    return Expanded(
-      child: ListView.separated(
-        itemCount: recebimentosProvider.items.length,
-        itemBuilder: (context, index) {
-          return ChangeNotifierProvider.value(
-            value: recebimentosProvider.items[index],
-            child: RecebimentoListItem(recebimento),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Divider(height: 1.2, indent: 1.0);
-        },
-        scrollDirection: Axis.vertical,
-      ),
     );
+//------------------------------------------------------------------------------
   }
 }
-
-
-// da pra usar o textformfield com seu controller pra filtrar a lista
-// vou criar uma variável string que vai ficar no parametro de digitação do textform e
-// e vou colocar no onchanged pra executar um where
-// Abaixo o textfield q o icone da lupa vai ficar dentro dele
-/*
-TextField(
-                              autofocus: textFieldAutoFocus,
-                              decoration: InputDecoration(
-                                hintText: "Entre o código de barras",
-                                prefixIcon: Icon(MdiIcons.barcode),
-                              ),
-                            ),
-*/
-// o icone da lupa ao ser tocado abre o textform (acima) na parte superior da pagina.
-// Apertando nele de novo fecha 

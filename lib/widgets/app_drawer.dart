@@ -13,28 +13,14 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('Bem Vindo Usuário!'),
+            title: Text('MENU'),
           ),
           ListTile(
-            leading: Icon(Icons.shop),
-            title: Text('Loja'),
+            leading: Icon(Icons.receipt_long_outlined),
+            title: Text('Recebimentos'),
             onTap: () =>
-                // INVÉS DE FAZER STACK SUBSTITUI A TELA POR OUTRA
+                // INVÉS DE FAZER STACK, SUBSTITUI A TELA POR OUTRA
                 Navigator.of(context).pushReplacementNamed(AppRoutes.HOME),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.payment),
-            title: Text('Pedidos'),
-            onTap: () =>
-                Navigator.of(context).pushReplacementNamed(AppRoutes.ORDERS),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Gerenciar Produtos'),
-            onTap: () =>
-                Navigator.of(context).pushReplacementNamed(AppRoutes.PRODUCTS),
           ),
           Divider(),
           ListTile(

@@ -54,6 +54,9 @@ class Recebimentos with ChangeNotifier {
     return _items.length;
   }
 
+  // usada em "recebimentosOverviewScreen" e "recebimentosList"
+  bool bSearch = false;
+
 //----------------------------------------------------------------------------//
 
   // CARREGA OS PRODUTOS

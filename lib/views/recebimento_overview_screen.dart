@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/providers/recebimento.dart';
-import 'package:pedidos/widgets/search_widget.dart';
+import 'package:pedidos/sem_uso/search_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/sem_uso/cart.dart';
 import 'package:pedidos/providers/recebimentos.dart';
@@ -24,22 +24,20 @@ class RecebimentoOverviewScreen extends StatefulWidget {
 class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
   bool _isLoading = true;
 
-  // permite mostrar a lupa (search)
-  bool _bLupa = false;
-  // Focus da lupa (search)
-  bool _bTextFieldAutoFocus = false;
+  // passado p RecebimentoList (param) p foco no TextField de lá
+  FocusNode focusNodeSearcher;
 
 //----------------------------------------------------------------------------
   // Aqui é usado "id" do respectivo recebimento
   Future<void> _refreshRecebimentos(BuildContext context) async {
     await Provider.of<Recebimentos>(context, listen: false).loadRecebimentos();
   }
+
   //----------------------------------------------------------------------------
 
   @override
   void initState() {
     super.initState();
-    // "listen = false" pq vai ficar por initState
     Provider.of<Recebimentos>(context, listen: false).loadRecebimentos().then(
       (_) {
         setState(
@@ -49,8 +47,8 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
         );
       },
     );
+    focusNodeSearcher = FocusNode();
   }
-  // ao voltar n executa o build pois espera
 
   @override
   Widget build(BuildContext context) {
@@ -62,21 +60,23 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
     // Onde conecta esse contexto ao contexto do main (ctx)
     return Scaffold(
       appBar: AppBar(
-        title: _bLupa
+        title: /*_bLupa
             ? SearchWidget(autoFocus: _bTextFieldAutoFocus)
-            : Text('Recebimentos'),
+            :*/
+            Text('Recebimentos'),
         actions: <Widget>[
           IconButton(
-            icon: _bLupa
+            icon: providerRecebimentos.bSearch
                 ? Icon(Icons.close)
                 : Icon(Icons.search), //_refreshRecebimentos
             onPressed: () async {
               // troca bool de lupa p seu valor oposto
-              _bLupa = !_bLupa;
-              _bTextFieldAutoFocus = !_bTextFieldAutoFocus;
-              if (!_bLupa) {
+              providerRecebimentos.bSearch = !providerRecebimentos.bSearch;
+              focusNodeSearcher.requestFocus();
+              /*if (!_bLupa) {
                 await _refreshRecebimentos(context);
-              }
+              }*/
+
               setState(() {});
             },
           ),
@@ -100,7 +100,9 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
                         child: CircularProgressIndicator(),
                       ),
                     )
-                  : RecebimentoList(),
+                  : RecebimentoList(
+                      focusNodeSearcher: focusNodeSearcher,
+                    ),
             ],
           ),
         ),

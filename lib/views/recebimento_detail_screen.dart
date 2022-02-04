@@ -29,7 +29,6 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
   @override
   void initState() {
     super.initState();
-    // "listen = false" pq vai ficar por initState
     Provider.of<Recebimentos>(context, listen: false)
         .loadProdutos(widget.recebimento.id)
         .then(
@@ -46,13 +45,13 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
   @override
   Widget build(BuildContext context) {
     // Argumentos rota
-    Recebimento recebimento = ModalRoute.of(context).settings.arguments;
+    //Recebimento recebimento = ModalRoute.of(context).settings.arguments;
     // Provider
     final RecebimentosProvider = Provider.of<Recebimentos>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("#" + recebimento.id.toString()),
+        title: Text("#" + widget.recebimento.id.toString()),
         actions: [
           IconButton(
             onPressed: () {},
@@ -99,18 +98,18 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      recebimento.nomeFornecedor,
+                      widget.recebimento.nomeFornecedor,
                       style: TextStyle(fontSize: 16.0),
                     ),
                     Text(
-                      'NF:  ' + recebimento.notaFiscal.toString(),
+                      'NF:  ' + widget.recebimento.notaFiscal.toString(),
                       style: TextStyle(fontSize: 16.0),
                       textAlign: TextAlign.left,
                     ),
                     Text(
                       'Data:  ' +
                           DateFormat('dd/MM/yyyy')
-                              .format(recebimento.dataPedido),
+                              .format(widget.recebimento.dataPedido),
                       style: TextStyle(fontSize: 16.0),
                     ),
                   ],
@@ -120,7 +119,7 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetailScreen> {
                   ? Center(child: CircularProgressIndicator())
                   : ProdutoList(
                       produtoItems: RecebimentosProvider.produtoItems,
-                      recebimento: recebimento,
+                      recebimento: widget.recebimento,
                     ),
             ],
           ),

@@ -6,11 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:pedidos/providers/recebimentos.dart';
 import 'package:pedidos/widgets/recebimento_list_item.dart';
 import 'package:pedidos/utils/constants.dart';
-
-// Lista em forma de grade
+import 'package:searchable_listview/searchable_listview.dart';
 
 class ProdutoList extends StatelessWidget {
-  //final bool showFavoriteOnly;
   ProdutoList({this.produtoItems, this.recebimento});
   List<Produto> produtoItems;
   Recebimento recebimento;
@@ -18,8 +16,6 @@ class ProdutoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Produto> produtos = produtoItems;
-    //final pedidos =
-    //fornecedorProvider.pedidos; // Lista de produtos filtrada ou não
 
     return Expanded(
       child: ListView.separated(

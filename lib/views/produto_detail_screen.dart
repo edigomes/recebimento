@@ -175,7 +175,7 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetail> {
                                       Icon(Icons.remove, color: Colors.white),
                                   style: ElevatedButton.styleFrom(
                                     shape: CircleBorder(),
-                                    padding: EdgeInsets.all(10),
+                                    padding: EdgeInsets.all(16),
                                     primary: Colors
                                         .cyanAccent[400], // <-- Button color
                                     onPrimary: Colors.red, // <-- Splash color
@@ -267,7 +267,7 @@ class _RecebimentoDetailScreenState extends State<RecebimentoDetail> {
                                         Icon(Icons.remove, color: Colors.white),
                                     style: ElevatedButton.styleFrom(
                                       shape: CircleBorder(),
-                                      padding: EdgeInsets.all(10),
+                                      padding: EdgeInsets.all(16),
                                       primary: Colors
                                           .cyanAccent[400], // <-- Button color
                                       onPrimary: Colors.red, // <-- Splash color
