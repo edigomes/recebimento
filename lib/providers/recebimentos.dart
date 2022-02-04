@@ -58,7 +58,7 @@ class Recebimentos with ChangeNotifier {
 
   // CARREGA OS PRODUTOS
 
-  Future<void> loadRecebimentos() async {
+  Future<void> loadRecebimentos({searchQuery}) async {
     if (_items.isNotEmpty) _items.clear();
 
     Map<String, String> headers = {
@@ -68,10 +68,17 @@ class Recebimentos with ChangeNotifier {
       'Name': 'Antony',
     };
 
+    //&custom={"status":"1"}'),
+
+    var url = '$_baseUrl/entrada?page=1' +
+        (searchQuery != null ? '&search=' + searchQuery : '');
+
     final recebimentoResponse = await http.get(
-      Uri.parse('$_baseUrl/entrada?page=1'), //&custom={"status":"1"}'),
+      Uri.parse(url),
       headers: headers,
     );
+
+    print(url);
 
     final Map<String, dynamic> dataRecebimentos =
         jsonDecode(recebimentoResponse.body);

@@ -62,14 +62,21 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
     // Onde conecta esse contexto ao contexto do main (ctx)
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recebimentos'),
+        title: _bLupa
+            ? SearchWidget(autoFocus: _bTextFieldAutoFocus)
+            : Text('Recebimentos'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
+            icon: _bLupa
+                ? Icon(Icons.close)
+                : Icon(Icons.search), //_refreshRecebimentos
+            onPressed: () async {
               // troca bool de lupa p seu valor oposto
               _bLupa = !_bLupa;
               _bTextFieldAutoFocus = !_bTextFieldAutoFocus;
+              if (!_bLupa) {
+                await _refreshRecebimentos(context);
+              }
               setState(() {});
             },
           ),
@@ -86,15 +93,13 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
           margin: EdgeInsets.all(12),
           child: Column(
             children: [
-              // lupa---------------------------------------------------------
-              _bLupa
-                  ? SearchWidget(
-                      autoFocus: _bTextFieldAutoFocus,
-                    )
-                  : Container(),
-              //--------------------------------------------------------------
               _isLoading
-                  ? Center(child: CircularProgressIndicator())
+                  ? Center(
+                      child: Container(
+                        padding: EdgeInsets.only(top: 100),
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
                   : RecebimentoList(),
             ],
           ),

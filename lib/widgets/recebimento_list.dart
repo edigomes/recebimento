@@ -17,14 +17,14 @@ class RecebimentoList extends StatelessWidget {
     final recebimentosProvider = Provider.of<Recebimentos>(context); // Provider
     final Recebimento recebimento = Recebimento();
 
-    List<RecebimentoListItem> Lista() {
+    /*List<RecebimentoListItem> Lista() {
        List<RecebimentoListItem> listaWidget;
       for(var tal in recebimentosProvider.items) {
         listaWidget.add(RecebimentoListItem(tal.));
       }
       RecebimentoListItem()
       
-    }
+    }*/
     // lista do listview vai ter q vir do widget de search
     //final pedidos =
     //fornecedorProvider.pedidos; // Lista de produtos filtrada ou não
