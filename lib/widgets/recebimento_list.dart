@@ -31,49 +31,24 @@ class RecebimentoList extends StatelessWidget {
 
     // Abaixo uso de ternário entre dois tipos de ListView (pesquisa ou não)
     return Expanded(
-      child: provRecebimentos.bRecebimentosSearch
-          ? SearchableList<Recebimento>(
-              initialList: provRecebimentos.items,
-              builder: (dynamic varr) => RecebimentoListItem(
-                fornecedorNome: varr.nomeFornecedor,
-                fornecedorId: varr.id,
-                fornecedorNF: varr.notaFiscal,
-                recebimento: varr,
-              ),
-              filter: _filterRecebimentoList,
-              emptyWidget: const Text('sem resultado !'),
-              focusNode: focusNodeSearcher,
-              inputDecoration: InputDecoration(
-                labelText: "Procurar Recebimento",
-                fillColor: Colors.white,
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.blue,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            )
-          : ListView.separated(
-              itemCount: provRecebimentos.items.length,
-              itemBuilder: (context, index) {
-                return ChangeNotifierProvider.value(
-                  value: provRecebimentos.items[index],
-                  child: RecebimentoListItem(
-                    fornecedorNome:
-                        provRecebimentos.items[index].nomeFornecedor,
-                    fornecedorId: provRecebimentos.items[index].id,
-                    fornecedorNF: provRecebimentos.items[index].notaFiscal,
-                    recebimento: provRecebimentos.items[index],
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Divider(height: 1.2, indent: 1.0);
-              },
-              scrollDirection: Axis.vertical,
+      child: ListView.separated(
+        itemCount: provRecebimentos.items.length,
+        itemBuilder: (context, index) {
+          return ChangeNotifierProvider.value(
+            value: provRecebimentos.items[index],
+            child: RecebimentoListItem(
+              fornecedorNome: provRecebimentos.items[index].nomeFornecedor,
+              fornecedorId: provRecebimentos.items[index].id,
+              fornecedorNF: provRecebimentos.items[index].notaFiscal,
+              recebimento: provRecebimentos.items[index],
             ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return Divider(height: 1.2, indent: 1.0);
+        },
+        scrollDirection: Axis.vertical,
+      ),
     );
 //------------------------------------------------------------------------------
   }

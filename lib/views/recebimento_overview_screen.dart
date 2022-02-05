@@ -60,10 +60,9 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
     // Onde conecta esse contexto ao contexto do main (ctx)
     return Scaffold(
       appBar: AppBar(
-        title: /*_bLupa
-            ? SearchWidget(autoFocus: _bTextFieldAutoFocus)
-            :*/
-            Text('Recebimentos'),
+        title: providerRecebimentos.bRecebimentosSearch
+            ? SearchWidget(autoFocus: true)
+            : Text('Recebimentos'),
         actions: <Widget>[
           IconButton(
             icon: providerRecebimentos.bRecebimentosSearch
@@ -74,10 +73,10 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
               providerRecebimentos.bRecebimentosSearch =
                   !providerRecebimentos.bRecebimentosSearch;
               _focusNodeSearcher.requestFocus();
-              /*if (!_bLupa) {
-                await _refreshRecebimentos(context);
-              }*/
-
+              if (!providerRecebimentos.bRecebimentosSearch) {
+                Provider.of<Recebimentos>(context, listen: false)
+                    .loadRecebimentos();
+              }
               setState(() {});
             },
           ),

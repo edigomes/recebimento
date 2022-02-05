@@ -84,6 +84,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     );*/
 
     return new TextField(
+      cursorColor: Colors.white,
       controller: controller,
       autofocus: widget.autoFocus,
       decoration: const InputDecoration(

@@ -83,8 +83,6 @@ class Recebimentos with ChangeNotifier {
       headers: headers,
     );
 
-    print(url);
-
     final Map<String, dynamic> dataRecebimentos =
         jsonDecode(recebimentoResponse.body);
 
@@ -145,7 +143,6 @@ class Recebimentos with ChangeNotifier {
 
     if (dataRecebimentos != null) {
       var data = dataRecebimentos['data'];
-      print(data);
       for (var recebimento_item in data) {
         _produtoItems.add(
           Produto(
