@@ -57,24 +57,34 @@ class Recebimentos with ChangeNotifier {
   // usada em "recebimentosOverviewScreen" e "recebimentosList"
   bool bRecebimentosSearch = false;
 
+  //
   bool bProdutosSearch = false;
+
+  bool bLoadingRecebimentos = true;
+
+  bool teste;
+
+  // Usada no widget "search_widget.dart" p cancelar a requisição de "loadRecebimentos()"
+  //bool bTerminou = false;
 
 //----------------------------------------------------------------------------//
 
   // CARREGA OS PRODUTOS
 
   Future<void> loadRecebimentos({searchQuery}) async {
+    teste = false;
+    bLoadingRecebimentos = true;
     if (_items.isNotEmpty) _items.clear();
 
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $_token',
-      'Name': 'Antony',
     };
 
     //&custom={"status":"1"}'),
 
+    // se [search != null] ent mostra lista filtrada por searchQuery (texto do searcher)
     var url = '$_baseUrl/entrada?page=1' +
         (searchQuery != null ? '&search=' + searchQuery : '');
 
@@ -115,8 +125,12 @@ class Recebimentos with ChangeNotifier {
           ),
         );
       }
+
       notifyListeners();
     }
+
+    //bLoadingRecebimentos = false;
+
     return Future.value();
   }
 

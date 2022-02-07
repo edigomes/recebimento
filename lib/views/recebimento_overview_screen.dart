@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pedidos/providers/recebimento.dart';
-import 'package:pedidos/sem_uso/search_widget.dart';
+import 'package:pedidos/views/search_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pedidos/sem_uso/cart.dart';
 import 'package:pedidos/providers/recebimentos.dart';
@@ -54,9 +54,6 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
   Widget build(BuildContext context) {
     Recebimentos providerRecebimentos = Provider.of<Recebimentos>(context);
 
-    // preciso passar a var abaixo p o construtor do widget de TextForm
-    List<Recebimento> provRecebList = providerRecebimentos.items;
-
     // Onde conecta esse contexto ao contexto do main (ctx)
     return Scaffold(
       appBar: AppBar(
@@ -68,12 +65,13 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
             icon: providerRecebimentos.bRecebimentosSearch
                 ? Icon(Icons.close)
                 : Icon(Icons.search),
-            onPressed: () async {
+            onPressed: () {
               // troca bool de lupa p seu valor oposto
               providerRecebimentos.bRecebimentosSearch =
                   !providerRecebimentos.bRecebimentosSearch;
               _focusNodeSearcher.requestFocus();
               if (!providerRecebimentos.bRecebimentosSearch) {
+                print(providerRecebimentos.bRecebimentosSearch);
                 Provider.of<Recebimentos>(context, listen: false)
                     .loadRecebimentos();
               }
