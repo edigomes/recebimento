@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedidos/exceptions/http_exception.dart';
@@ -16,6 +17,10 @@ import 'package:provider/provider.dart';
 class Recebimentos with ChangeNotifier {
 //----------------------------------------------------------------------------//
   // a lista pede pra ser constante
+
+  Dio dio = Dio();
+
+  CancelToken cancelToken;
 
   List<Recebimento> _items = [];
   List<Produto> _produtoItems = [];
@@ -57,10 +62,9 @@ class Recebimentos with ChangeNotifier {
   // usada em "recebimentosOverviewScreen" e "recebimentosList"
   bool bRecebimentosSearch = false;
 
-  //
   bool bProdutosSearch = false;
 
-  bool bLoadingRecebimentos = true;
+  //bool bLoadingRecebimentos = true;
 
   bool teste;
 
@@ -72,8 +76,9 @@ class Recebimentos with ChangeNotifier {
   // CARREGA OS PRODUTOS
 
   Future<void> loadRecebimentos({searchQuery}) async {
-    teste = false;
-    bLoadingRecebimentos = true;
+    print("executou");
+    //teste = false;
+    //bLoadingRecebimentos = true;
     if (_items.isNotEmpty) _items.clear();
 
     Map<String, String> headers = {
@@ -88,10 +93,15 @@ class Recebimentos with ChangeNotifier {
     var url = '$_baseUrl/entrada?page=1' +
         (searchQuery != null ? '&search=' + searchQuery : '');
 
+    final recebimentoResponse =
+        await http.get(Uri.parse(url), headers: headers);
+
+/*
     final recebimentoResponse = await http.get(
       Uri.parse(url),
       headers: headers,
     );
+    */
 
     final Map<String, dynamic> dataRecebimentos =
         jsonDecode(recebimentoResponse.body);

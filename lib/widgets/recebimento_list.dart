@@ -8,9 +8,9 @@ import 'package:searchable_listview/searchable_listview.dart';
 // Lista em forma de grade
 
 class RecebimentoList extends StatelessWidget {
-  FocusNode focusNodeSearcher;
+  //FocusNode focusNodeSearcher;
 
-  RecebimentoList({this.focusNodeSearcher});
+  //RecebimentoList({this.focusNodeSearcher});
 
   @override
   Widget build(BuildContext context) {

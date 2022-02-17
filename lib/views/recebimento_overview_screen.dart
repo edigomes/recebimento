@@ -1,3 +1,4 @@
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:pedidos/providers/recebimento.dart';
 import 'package:pedidos/views/search_widget.dart';
@@ -24,16 +25,40 @@ class RecebimentoOverviewScreen extends StatefulWidget {
 class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
   bool _isLoading = true;
 
+  bool bRecebimentosSearch = false;
+
   // passado p RecebimentoList (param) p foco no TextField de lá
   FocusNode _focusNodeSearcher;
 
+  TextEditingController controller = TextEditingController();
+
 //----------------------------------------------------------------------------
   // Aqui é usado "id" do respectivo recebimento
-  Future<void> _refreshRecebimentos(BuildContext context) async {
-    await Provider.of<Recebimentos>(context, listen: false).loadRecebimentos();
+  Future<void> _refreshRecebimentos() async {
+    _isLoading = true;
+    await Provider.of<Recebimentos>(context, listen: false)
+        .loadRecebimentos()
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
-  //----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+// Para searcher
+  void onChanged({String inputText}) async {
+    await Provider.of<Recebimentos>(context, listen: false)
+        .loadRecebimentos(searchQuery: inputText)
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+
+    print(_isLoading);
+  }
+//----------------------------------------------------------------------------
 
   @override
   void initState() {
@@ -57,25 +82,61 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
     // Onde conecta esse contexto ao contexto do main (ctx)
     return Scaffold(
       appBar: AppBar(
-        title: providerRecebimentos.bRecebimentosSearch
-            ? SearchWidget(autoFocus: true)
+        title: bRecebimentosSearch
+            ? TextField(
+                cursorColor: Colors.white,
+                controller: controller,
+                autofocus: bRecebimentosSearch,
+                decoration: const InputDecoration(
+                  hintText: 'Pesquisar',
+                  border: InputBorder.none,
+                  hintStyle: const TextStyle(color: Colors.white30),
+                ),
+                style: const TextStyle(color: Colors.white, fontSize: 16.0),
+                onSubmitted: (inputText) {
+                  onChanged(inputText: inputText);
+                },
+                onChanged: (String inputText) async {
+                  print('input >>> ' + inputText.length.toString());
+
+                  EasyDebounce.cancelAll();
+
+                  _isLoading = true;
+
+                  if (inputText.length < 1) {
+                    EasyDebounce.debounce(
+                      'my-debouncer',
+                      Duration(milliseconds: 2000),
+                      () {
+                        onChanged(inputText: null);
+                      },
+                    );
+                  }
+                  if (inputText.length > 0) {
+                    EasyDebounce.debounce(
+                      'my-debouncer',
+                      Duration(milliseconds: 2000),
+                      () {
+                        onChanged(inputText: inputText);
+                      },
+                    );
+                  }
+                  print(_isLoading);
+                },
+              )
             : Text('Recebimentos'),
         actions: <Widget>[
           IconButton(
-            icon: providerRecebimentos.bRecebimentosSearch
-                ? Icon(Icons.close)
-                : Icon(Icons.search),
+            icon: bRecebimentosSearch ? Icon(Icons.close) : Icon(Icons.search),
             onPressed: () {
-              // troca bool de lupa p seu valor oposto
-              providerRecebimentos.bRecebimentosSearch =
-                  !providerRecebimentos.bRecebimentosSearch;
-              _focusNodeSearcher.requestFocus();
-              if (!providerRecebimentos.bRecebimentosSearch) {
-                print(providerRecebimentos.bRecebimentosSearch);
-                Provider.of<Recebimentos>(context, listen: false)
-                    .loadRecebimentos();
-              }
+              print('1');
+              bRecebimentosSearch = !bRecebimentosSearch;
               setState(() {});
+              print('2');
+              _focusNodeSearcher.requestFocus();
+              print('3');
+              _refreshRecebimentos();
+              print('4');
             },
           ),
         ],
@@ -83,9 +144,7 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
       drawer: AppDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
-          _isLoading = true;
-          await _refreshRecebimentos(context)
-              .then((value) => _isLoading = false);
+          await _refreshRecebimentos();
         },
         child: Container(
           margin: EdgeInsets.all(12),
@@ -99,8 +158,8 @@ class _RecebimentoOverviewScreenState extends State<RecebimentoOverviewScreen> {
                       ),
                     )
                   : RecebimentoList(
-                      focusNodeSearcher: _focusNodeSearcher,
-                    ),
+                      //focusNodeSearcher: _focusNodeSearcher,
+                      ),
             ],
           ),
         ),

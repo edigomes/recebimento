@@ -46,3 +46,6 @@ to no widget recebimento_list tentando criar uma lista lá dentro p passar pra o
 
 terminando o código é bom guardar informações na Documentação sobre as extensões que encontrei (além de deixar guardado o
  código pra consulta) e novos conceitos para TextField, p e.
+
+
+ agora ao apertar na lupa da recebimentos_overview_screen não quer dar setstate
